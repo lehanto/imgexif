@@ -1,0 +1,56 @@
+
+<%= image_tag 'DSC_3050.jpg', :width => '1232', :height => '816' %>
+
+<ul>
+  <li>カメラ : <%= @exif.model %></li>
+  <li>シャッタースピード    : <%= @exif.exposure_time.to_s %></li>
+  <li>F値 	:	<%= @exif.f_number.to_f.to_s %></li>
+  <li>焦点距離  :  <%= @exif.focal_length.to_i %></li>
+  <li>35mm換算焦点距離  :  <%= @exif.focal_length_in_35mm_film.to_i %></li>
+  <li>ISO感度  :  <%= @exif.iso_speed_ratings %></li>
+  <li>撮影日時  :  <%= @exif.date_time_original %></li>
+  <li>横幅  :  <%= @exif.pixel_x_dimension %></li>
+  <li>縦幅  :  <%= @exif.pixel_y_dimension %></li>
+  <li>GPS緯度  :  <%= @exif.gps.latitude %></li>
+  <li>GPS経度  :  <%= @exif.gps.longitude %></li>
+</ul>
+
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>gmapsサンプル</title>
+  <style>
+      @charset "utf-8";
+      #map {
+          height: 400px;
+      }
+  </style>
+  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script src="./gmaps.js"></script>
+  <script>
+      window.onload = function(){
+          var lat = <%= @exif.gps.latitude %>;
+          var lng = <%= @exif.gps.longitude %>;
+          var map = new GMaps({
+              div: "#map",
+              lat: lat,
+              lng: lng,
+              zoom: 17
+          });
+
+          map.addMarker({
+              lat: lat,
+              lng: lng,
+              title: "LIG",
+              icon: "http://i.gyazo.com/0f00ed1cff497b7390020f9e64e31674.png",
+              infoWindow: {
+                  content: "<p>LIGは<br/>ココだよ!</p>"
+              }
+          });
+      };
+  </script>
+</head>
+<body>
+<div id="map"></div>
+</body>
+</html>
